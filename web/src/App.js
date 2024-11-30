@@ -16,6 +16,7 @@ import PasswordResetConfirm from './components/PasswordResetConfirm';
 import { UserContext } from './context/User';
 import { StatusContext } from './context/Status';
 import File from './pages/File';
+import Data58 from './pages/Data58';
 
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -78,6 +79,14 @@ function App() {
           <PrivateRoute>
             <File />
           </PrivateRoute>
+        }
+      />
+      <Route
+        path='/58data'
+        element={
+          <Suspense fallback={<Loading></Loading>}>
+            <Data58 />
+          </Suspense>
         }
       />
       <Route
