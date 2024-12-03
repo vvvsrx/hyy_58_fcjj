@@ -4,6 +4,7 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
+	"log"
 	"time"
 )
 
@@ -16,7 +17,7 @@ type Cleaned58Data struct {
 	Score      string    `gorm:"type:text" json:"score,omitempty"`
 	City       string    `gorm:"type:text" json:"city,omitempty"`
 	Status     int       `gorm:"default:0;not null" json:"status"`
-	UpdateTime time.Time `gorm:"not null" json:"updatetime"`
+	UpdateTime time.Time `gorm:"type:datetime" json:"updatetime"`
 	Parameter  JSONSlice `gorm:"type:json" json:"parameter,omitempty"`
 }
 
@@ -48,7 +49,12 @@ func (js JSONSlice) Value() (driver.Value, error) {
 }
 
 func GetAll58Datas(startIdx int, num int) (data []*Cleaned58Data, err error) {
-	err = DB.Order("id desc").Limit(num).Offset(startIdx).Select([]string{"id", "uid", "olink", "img", "name", "score", "city", "status", "updatetime", "parameter"}).Find(&data).Error
+	err = DB.Order("updatetime desc").Limit(num).Offset(startIdx).Select([]string{"id", "uid", "olink", "img", "name", "score", "city", "status", "updatetime", "parameter"}).Find(&data).Error
+	for _, user := range data {
+		// formattedTime := user.UpdateTime.Format(time.RFC3339)
+		// common.SysLog(formattedTime)
+		log.Printf("Fetched data: %+v", user)
+	}
 	return data, err
 }
 

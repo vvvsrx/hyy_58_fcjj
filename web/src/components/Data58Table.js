@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { API, showError, showSuccess } from '../helpers';
 
 import { ITEMS_PER_PAGE } from '../constants';
+import QrCodePopupButton from './QrCodePopupButton';
 
 
 const Data58Table = () => {
@@ -114,7 +115,7 @@ const Data58Table = () => {
 
   return (
     <>
-      <Form onSubmit={searchUsers}>
+      {/* <Form onSubmit={searchUsers}>
         <Form.Input
           icon='search'
           fluid
@@ -124,7 +125,7 @@ const Data58Table = () => {
           loading={searching}
           onChange={handleKeywordChange}
         />
-      </Form>
+      </Form> */}
 
       <Table basic>
         <Table.Header>
@@ -161,7 +162,7 @@ const Data58Table = () => {
               城市
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', width: '300px' }}
               onClick={() => {
               }}
             >
@@ -175,6 +176,14 @@ const Data58Table = () => {
             >
               状态
             </Table.HeaderCell>
+            {/* <Table.HeaderCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                sortUser('updatetime');
+              }}
+            >
+              更新时间
+            </Table.HeaderCell> */}
             <Table.HeaderCell>操作</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -189,23 +198,17 @@ const Data58Table = () => {
               if (user.deleted) return <></>;
               return (
                 <Table.Row key={user.id}>
-                  <Table.Cell><img src={user.img} height={32} /></Table.Cell>
+                  <Table.Cell><img src={user.img} width={40} /></Table.Cell>
                   <Table.Cell>{user.name}</Table.Cell>
                   <Table.Cell>{user.score}</Table.Cell>
                   <Table.Cell>{user.city}</Table.Cell>
-                  <Table.Cell>{user.parameter.map((text, idx) => { <a key={idx} class="ui teal tag label">{text}</a> })}</Table.Cell>
-                  <Table.Cell>{renderStatus(user.status)}</Table.Cell>
                   <Table.Cell>
-                    <div>
-                      <Button
-                        size={'small'}
-                        positive
-                        onClick={() => {
-                        }}
-                      >
-                        电话
-                      </Button>
-                    </div>
+                  {user.parameter.map((text, idx) => { return text + "|" })}
+                  </Table.Cell>
+                  <Table.Cell>{renderStatus(user.status)}</Table.Cell>
+                  {/* <Table.Cell>{user.updatetime}</Table.Cell> */}
+                  <Table.Cell>
+                    <QrCodePopupButton uid={user.uid} />
                   </Table.Cell>
                 </Table.Row>
               );

@@ -26,6 +26,7 @@ func SetApiRouter(router *gin.Engine) {
 		{
 			selfRoute := data58Route.Group("/")
 			selfRoute.GET("/", controller.GetAll58Datas)
+			selfRoute.GET("/phone", controller.GetAll58Phone)
 			selfRoute.GET("/search", controller.Search58Datas)
 
 		}
