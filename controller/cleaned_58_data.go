@@ -18,7 +18,14 @@ func GetAll58Datas(c *gin.Context) {
 	if p < 0 {
 		p = 0
 	}
-	users, err := model.GetAll58Datas(p*common.ItemsPerPage, common.ItemsPerPage)
+	dayType, _ := strconv.Atoi(c.Query("dayType"))
+	if p < 0 {
+		p = 0
+	}
+	status, _ := strconv.Atoi(c.Query("status"))
+	city := c.Query("city")
+	name := c.Query("name")
+	users, err := model.GetAll58Datas(p*common.ItemsPerPage, common.ItemsPerPage, city, dayType, name, status)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
@@ -26,15 +33,30 @@ func GetAll58Datas(c *gin.Context) {
 		})
 		return
 	}
-	for _, user := range users {
-		formattedTime := user.UpdateTime.Format(time.RFC3339)
-		common.SysLog(formattedTime)
-	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "",
 		"data":    users,
+	})
+	return
+}
+
+func GetAllCities(c *gin.Context) {
+
+	cities, err := model.GetAllCities()
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data":    cities,
 	})
 	return
 }

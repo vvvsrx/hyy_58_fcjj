@@ -1,0 +1,82 @@
+
+
+[31m2024/12/04 11:04:52 [Recovery] 2024/12/04 - 11:04:52 panic recovered:
+runtime error: invalid memory address or nil pointer dereference
+/usr/local/go/src/runtime/panic.go:261 (0x10207ea9b)
+	panicmem: panic(memoryError)
+/usr/local/go/src/runtime/signal_unix.go:861 (0x10207ea68)
+	sigpanic: panicmem()
+/Users/admin/go/pkg/mod/gorm.io/gorm@v1.25.12/gorm.go:406 (0x1025b2928)
+	(*DB).getInstance: if db.clone > 0 {
+/Users/admin/go/pkg/mod/gorm.io/gorm@v1.25.12/gorm.go:329 (0x1025b228f)
+	(*DB).Debug: tx = db.getInstance()
+/Users/admin/Documents/github/hyy_58_fcjj/model/cleaned_58_data.go:68 (0x10263e4b7)
+	GetAll58Datas: err = tx.Debug().Order("updatetime desc").Limit(num).Offset(startIdx).Select([]string{"id", "uid", "olink", "img", "name", "score", "city", "status", "updatetime", "parameter"}).Find(&data).Error
+/Users/admin/Documents/github/hyy_58_fcjj/controller/cleaned_58_data.go:27 (0x10264b9f3)
+	GetAll58Datas: users, err := model.GetAll58Datas(p*common.ItemsPerPage, common.ItemsPerPage, city, dayType, name)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x1024cc44b)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.5/sessions.go:54 (0x102664eef)
+	main.Sessions.func3: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x1024d85ef)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/recovery.go:102 (0x1024d85d4)
+	CustomRecoveryWithWriter.func1: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x1024d798f)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/logger.go:240 (0x1024d7958)
+	LoggerWithConfig.func1: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x1024d6ac3)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/gin.go:620 (0x1024d67ec)
+	(*Engine).handleHTTPRequest: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/gin.go:576 (0x1024d640f)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2938 (0x1022d48eb)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:2009 (0x1022d0ce7)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_arm64.s:1197 (0x10209b2b3)
+	goexit: MOVD	R0, R0	// NOP
+[0m
+
+
+[31m2024/12/04 11:11:11 [Recovery] 2024/12/04 - 11:11:11 panic recovered:
+runtime error: invalid memory address or nil pointer dereference
+/usr/local/go/src/runtime/panic.go:261 (0x104bfea3b)
+	panicmem: panic(memoryError)
+/usr/local/go/src/runtime/signal_unix.go:861 (0x104bfea08)
+	sigpanic: panicmem()
+/Users/admin/go/pkg/mod/gorm.io/gorm@v1.25.12/gorm.go:406 (0x1051328c8)
+	(*DB).getInstance: if db.clone > 0 {
+/Users/admin/go/pkg/mod/gorm.io/gorm@v1.25.12/chainable_api.go:314 (0x10512ac63)
+	(*DB).Order: tx = db.getInstance()
+/Users/admin/Documents/github/hyy_58_fcjj/model/cleaned_58_data.go:68 (0x1051be467)
+	GetAll58Datas: err = tx.Order("updatetime desc").Limit(num).Offset(startIdx).Select([]string{"id", "uid", "olink", "img", "name", "score", "city", "status", "updatetime", "parameter"}).Find(&data).Error
+/Users/admin/Documents/github/hyy_58_fcjj/controller/cleaned_58_data.go:27 (0x1051cb9f3)
+	GetAll58Datas: users, err := model.GetAll58Datas(p*common.ItemsPerPage, common.ItemsPerPage, city, dayType, name)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x10504c3eb)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.5/sessions.go:54 (0x1051e4eef)
+	main.Sessions.func3: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x10505858f)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/recovery.go:102 (0x105058574)
+	CustomRecoveryWithWriter.func1: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x10505792f)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/logger.go:240 (0x1050578f8)
+	LoggerWithConfig.func1: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174 (0x105056a63)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/gin.go:620 (0x10505678c)
+	(*Engine).handleHTTPRequest: c.Next()
+/Users/admin/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/gin.go:576 (0x1050563af)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2938 (0x104e5488b)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:2009 (0x104e50c87)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_arm64.s:1197 (0x104c1b253)
+	goexit: MOVD	R0, R0	// NOP
+[0m

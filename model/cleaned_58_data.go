@@ -4,20 +4,19 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
-	"log"
 	"time"
 )
 
 type Cleaned58Data struct {
 	Id         int       `json:"id"`
 	UId        int       `gorm:"not null" json:"uid"`
-	OLink      string    `gorm:"type:text" json:"olink,omitempty"`
+	Olink      string    `gorm:"type:text" json:"olink,omitempty"`
 	Img        string    `gorm:"type:text" json:"img,omitempty"`
 	Name       string    `gorm:"type:text;not null" json:"name"`
 	Score      string    `gorm:"type:text" json:"score,omitempty"`
 	City       string    `gorm:"type:text" json:"city,omitempty"`
 	Status     int       `gorm:"default:0;not null" json:"status"`
-	UpdateTime time.Time `gorm:"type:datetime" json:"updatetime"`
+	Updatetime time.Time `gorm:"type:datetime" json:"updatetime"`
 	Parameter  JSONSlice `gorm:"type:json" json:"parameter,omitempty"`
 }
 
@@ -48,14 +47,32 @@ func (js JSONSlice) Value() (driver.Value, error) {
 	return json.Marshal(js)
 }
 
-func GetAll58Datas(startIdx int, num int) (data []*Cleaned58Data, err error) {
-	err = DB.Order("updatetime desc").Limit(num).Offset(startIdx).Select([]string{"id", "uid", "olink", "img", "name", "score", "city", "status", "updatetime", "parameter"}).Find(&data).Error
-	for _, user := range data {
-		// formattedTime := user.UpdateTime.Format(time.RFC3339)
-		// common.SysLog(formattedTime)
-		log.Printf("Fetched data: %+v", user)
+func GetAll58Datas(startIdx int, num int, city string, dayType int, name string, status int) (data []*Cleaned58Data, err error) {
+	var tx = DB
+	if city != "" {
+		tx = tx.Where("city = ?", city)
 	}
+	if name != "" {
+		tx = tx.Where("name = ?", name)
+	}
+	if status >= 0 {
+		tx = tx.Where("status = ?", status)
+	}
+	if dayType > 0 {
+		switch dayType {
+		case 1: //今天
+			tx = tx.Where("updatetime >= CURDATE() AND updatetime < CURDATE() + INTERVAL 1 DAY")
+		case 2:
+			tx = tx.Where("DATE(updatetime) = CURDATE() - INTERVAL 1 DAY")
+		}
+	}
+	err = tx.Order("updatetime desc").Limit(num).Offset(startIdx).Select([]string{"id", "uid", "olink", "img", "name", "score", "city", "status", "updatetime", "parameter"}).Find(&data).Error
 	return data, err
+}
+
+func GetAllCities() (cities []*string, err error) {
+	err = DB.Model(&Cleaned58Data{}).Select("DISTINCT city").Scan(&cities).Error
+	return cities, err
 }
 
 func Search58Datas(keyword string) (data []*Cleaned58Data, err error) {

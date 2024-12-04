@@ -1,9 +1,10 @@
 package common
 
 import (
-	"github.com/google/uuid"
 	"sync"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 var StartTime = time.Now().Unix() // unit: second
@@ -21,7 +22,7 @@ var SQLitePath = "gin-template.db"
 var OptionMap map[string]string
 var OptionMapRWMutex sync.RWMutex
 
-var ItemsPerPage = 10
+var ItemsPerPage = 50
 
 var PasswordLoginEnabled = true
 var PasswordRegisterEnabled = true
