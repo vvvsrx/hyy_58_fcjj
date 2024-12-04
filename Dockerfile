@@ -27,7 +27,7 @@ RUN apk update \
     && update-ca-certificates 2>/dev/null || true
 ENV PORT=3000
 COPY --from=builder2 /build/gin-template /
-COPY --from=builder2 /build/build /data/web_build
+COPY --from=builder2 /build/web/build /data/web_build
 EXPOSE 3000
 WORKDIR /data
 ENTRYPOINT ["/gin-template"]
