@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Button,
   Form,
@@ -20,6 +20,7 @@ import QrCodePopupButton from './QrCodePopupButton';
 
 
 const Data58Table = () => {
+  const hasLoadedCities = useRef(false);
   const [data58, setData58] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState(1);
@@ -39,8 +40,8 @@ const Data58Table = () => {
   ];
 
   const CITYTYPE_OPTIONS = [
-    { value: '', label: '全部' },
-    ...cityOptions.map(city => ({ value: city, label: city })),
+    { key: '', value: '', text: '全部' },
+    ...cityOptions.map(city => ({ key: city, value: city, text: city })),
   ];
 
   const STATUS_OPTIONS = [
@@ -93,11 +94,14 @@ const Data58Table = () => {
   };
 
   useEffect(() => {
-    loadCities()
-      .then()
-      .catch((reason) => {
-        showError(reason);
-      });
+    if (!hasLoadedCities.current) {
+      loadCities()
+        .then()
+        .catch((reason) => {
+          showError(reason);
+        });
+      hasLoadedCities.current = true;
+    }
     loadUsers(0)
       .then()
       .catch((reason) => {
@@ -182,7 +186,7 @@ const handleInputChange = (e, { name, value }) => {
             <FormSelect
                   fluid
                   label='城市'
-                  placeholder='城市'
+                  placeholder='全部'
                   options={CITYTYPE_OPTIONS}
                   name='cityType'
                   value={cityType}
