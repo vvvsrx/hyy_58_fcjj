@@ -41,11 +41,7 @@ func InitDB() (err error) {
 	var db *gorm.DB
 	if os.Getenv("SQL_DSN") != "" {
 		// Use MySQL
-		//export SQL_DSN=hyy_example:W7s8fKBmxjXAiKPn@tcp(192.168.3.7:3306)/hyy_example?charset=utf8mb4&parseTime=True&loc=Local
-		// db, err = gorm.Open(mysql.Open(os.Getenv("SQL_DSN")), &gorm.Config{
-		// 	PrepareStmt: true, // precompile SQL
-		// })
-		db, err = gorm.Open(mysql.Open("hyy_example:W7s8fKBmxjXAiKPn@tcp(192.168.3.7:3306)/hyy_example?charset=utf8mb4&parseTime=True&loc=Local"), &gorm.Config{
+		db, err = gorm.Open(mysql.Open(os.Getenv("SQL_DSN")), &gorm.Config{
 			PrepareStmt: true, // precompile SQL
 		})
 	} else {
